@@ -1,0 +1,48 @@
+pipeline{
+    agent none
+     stages{
+        parallel
+        stage ('build-1'){
+            agent {label 'node1'}
+            steps{
+                sh'''
+                echo "this is build-1 stage"
+                ''' 
+            }
+        }
+        stage ('build-2'){
+            agent{label 'node2'}
+            steps{
+                sh'''
+                echo "this is build2 stage"
+                '''
+            }
+        }
+    stages{
+    parallel depoly
+    stage('depoly-1'){
+        agent{label 'node1'}
+        steps{
+            sh'''
+            echo"this is depoly1 stage"
+            '''
+        }
+    }
+    stage('deploy-2'){
+        agent{label 'node2'}
+        steps{
+            sh'''
+            echo"this is deploy2 stage"
+            '''
+        }
+    }
+    stage('test'){
+        agent{label 'node2'}
+        steps{
+            sh'''
+            echo"this is test stage"
+            '''
+        }    
+    }   
+    }              
+     }     
